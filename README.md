@@ -11,6 +11,18 @@ uv sync
 uv run scripts/setup_env.py
 ```
 
+Then run the research agent and enter a topic when prompted.
+```
+uv run main.py
+```
+
+The current paper surfacing flow uses `scripts/paper_search.py` to search arXiv and Crossref metadata, dedupe and rank the results, and pass the top papers into the LLM as grounding context. `CROSSREF_MAILTO` is optional, but adding it during setup is recommended for polite Crossref API usage.
+
+For example:
+```
+Research topic: vision-language-action models for robot manipulation
+```
+
 # Architecture
 We plan on using a Python + Redis + Postgres/Database setup. Currently, only a very basic MVP for the Python backend has been setup. First and foremost, we're planning to support third party & local LLM services, and quick and easy setup with VPS and local setups. 
 
