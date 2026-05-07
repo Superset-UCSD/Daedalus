@@ -23,6 +23,16 @@ For example:
 Research topic: vision-language-action models for robot manipulation
 ```
 
+To surface papers through Discord, add your Discord bot token during setup and run the bot.
+```
+uv run scripts/discord_bot.py
+```
+
+The bot registers a global `/papers` command. Global Discord commands can take time to appear after startup.
+```
+/papers topic: vision-language-action models for robot manipulation
+```
+
 # Architecture
 We plan on using a Python + Redis + Postgres/Database setup. Currently, only a very basic MVP for the Python backend has been setup. First and foremost, we're planning to support third party & local LLM services, and quick and easy setup with VPS and local setups. 
 
