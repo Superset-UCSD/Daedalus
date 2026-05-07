@@ -27,6 +27,7 @@ We plan to follow a readability-first principled approach to this repository. Mo
 - [ ] Hide API Key during input via setup
 - [ ] Streamline setup through a proper TUI with React + Ink
 - [ ] Repository Directory writeup
+- [ ] Database integration
 
 **Long-term:**
 - [ ] Migrate setup and restructure components into full packages
