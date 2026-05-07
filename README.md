@@ -16,11 +16,11 @@ We plan to follow a readability-first principled approach to this repository. Mo
 
 ## Roadmap
 **Implemented**
-[ ] - Setup for tokens through `setup.py`. Note: this is currently very barebones.
+- [ ] Setup for tokens through `setup.py`. Note: this is currently very barebones.
 
 **Open issues:**
-[ ] - Basic Agent paper surfacing
-[ ] - Support multiple model switching within API
-[ ] - Hide API Key during input via setup
-[ ] - Streamline setup through a proper TUI with React + Ink
-[ ] - Repository Directory writeup
+- [ ] Basic Agent paper surfacing
+- [ ] Support multiple model switching within API
+- [ ] Hide API Key during input via setup
+- [ ] Streamline setup through a proper TUI with React + Ink
+- [ ] Repository Directory writeup
