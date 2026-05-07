@@ -15,8 +15,8 @@ We plan on using a Python + Redis + Postgres/Database setup. Currently, only a v
 We plan to follow a readability-first principled approach to this repository. Most of our code will be designed to be readable and ergonomic.
 
 ## Roadmap
-**Implemented**
-- [ ] Setup for tokens through `setup.py`. Note: this is currently very barebones.
+**In-Progress/Partially Implemented**
+- [x] Setup for tokens through `setup.py`. Note: this is currently very barebones.
 
 **Open issues:**
 - [ ] Basic Agent paper surfacing
