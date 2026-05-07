@@ -47,6 +47,7 @@ def search_arxiv(query: str, limit: int) -> list[dict]:
                 "title": title,
                 "authors": authors,
                 "year": int(published[:4]) if published[:4].isdigit() else None,
+                "published_date": published[:10] if len(published) >= 10 else None,
                 "abstract": abstract,
                 "url": paper_url,
                 "source": "arxiv",
@@ -83,10 +84,14 @@ def search_crossref(query: str, limit: int, mailto: str | None = None) -> list[d
                 authors.append(" ".join(name.split()))
 
         year = None
+        published_date = None
         for date_key in ("published-print", "published-online", "issued"):
             date_parts = item.get(date_key, {}).get("date-parts", [])
             if date_parts and date_parts[0] and isinstance(date_parts[0][0], int):
                 year = date_parts[0][0]
+                month = date_parts[0][1] if len(date_parts[0]) > 1 and isinstance(date_parts[0][1], int) else 1
+                day = date_parts[0][2] if len(date_parts[0]) > 2 and isinstance(date_parts[0][2], int) else 1
+                published_date = f"{year:04d}-{month:02d}-{day:02d}"
                 break
 
         records.append(
@@ -94,6 +99,7 @@ def search_crossref(query: str, limit: int, mailto: str | None = None) -> list[d
                 "title": " ".join(title.split()),
                 "authors": authors,
                 "year": year,
+                "published_date": published_date,
                 "abstract": " ".join((item.get("abstract", "") or "").split()),
                 "url": " ".join((item.get("URL", "") or "").split()),
                 "source": "crossref",
@@ -105,12 +111,26 @@ def search_crossref(query: str, limit: int, mailto: str | None = None) -> list[d
     return records
 
 
-def surface_papers(records: list[dict], query: str, limit: int = 5) -> list[dict]:
+def surface_papers(
+    records: list[dict],
+    query: str,
+    limit: int = 5,
+    after_date: str | None = None,
+    before_date: str | None = None,
+) -> list[dict]:
     query_tokens = set(re.sub(r"[^a-z0-9]+", " ", query.lower()).split())
     current_year = datetime.now(UTC).year
     deduped = {}
 
     for record in records:
+        published_date = record.get("published_date")
+        if (after_date or before_date) and not published_date:
+            continue
+        if after_date and published_date and published_date < after_date:
+            continue
+        if before_date and published_date and published_date > before_date:
+            continue
+
         doi = (record.get("doi") or "").strip().lower()
         arxiv_id = re.sub(r"v\d+$", "", (record.get("arxiv_id") or "").strip().lower())
         title = re.sub(r"[^a-z0-9]+", " ", (record.get("title") or "").lower()).strip()
@@ -125,7 +145,7 @@ def surface_papers(records: list[dict], query: str, limit: int = 5) -> list[dict
             existing["abstract"] = record["abstract"]
         if len(record.get("authors", [])) > len(existing.get("authors", [])):
             existing["authors"] = record["authors"]
-        for field in ("title", "year", "url", "doi", "arxiv_id"):
+        for field in ("title", "year", "published_date", "url", "doi", "arxiv_id"):
             if not existing.get(field) and record.get(field):
                 existing[field] = record[field]
 
@@ -162,7 +182,7 @@ def format_paper_context(records: list[dict]) -> str:
         lines.append(f"{index}. {record.get('title') or 'Untitled'}")
         lines.append(f"   Authors: {', '.join(record.get('authors', [])) or 'Unknown authors'}")
         lines.append(
-            f"   Year: {record.get('year') or 'Unknown year'} | "
+            f"   Date: {record.get('published_date') or record.get('year') or 'Unknown date'} | "
             f"Source: {record.get('source') or 'unknown'} | "
             f"DOI: {record.get('doi') or 'N/A'}"
         )

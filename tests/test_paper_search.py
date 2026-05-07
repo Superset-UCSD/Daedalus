@@ -9,6 +9,7 @@ def test_surface_papers_dedupes_by_doi_and_merges_fields() -> None:
             "title": "First copy",
             "authors": ["A. Author"],
             "year": 2024,
+            "published_date": "2024-01-01",
             "abstract": "",
             "url": "https://example.com/1",
             "source": "crossref",
@@ -19,6 +20,7 @@ def test_surface_papers_dedupes_by_doi_and_merges_fields() -> None:
             "title": "Second copy",
             "authors": ["A. Author", "B. Author"],
             "year": 2024,
+            "published_date": "2024-02-01",
             "abstract": "This is a longer abstract.",
             "url": "https://example.com/2",
             "source": "arxiv",
@@ -41,6 +43,7 @@ def test_surface_papers_normalizes_arxiv_versions() -> None:
             "title": "Paper",
             "authors": [],
             "year": 2024,
+            "published_date": "2024-01-01",
             "abstract": "short",
             "url": "https://arxiv.org/abs/2401.12345v1",
             "source": "arxiv",
@@ -51,6 +54,7 @@ def test_surface_papers_normalizes_arxiv_versions() -> None:
             "title": "Paper",
             "authors": [],
             "year": 2024,
+            "published_date": "2024-02-01",
             "abstract": "a longer replacement abstract",
             "url": "https://arxiv.org/abs/2401.12345v2",
             "source": "arxiv",
@@ -70,6 +74,7 @@ def test_surface_papers_falls_back_to_title_year() -> None:
             "title": " Vision Language Action Policy ",
             "authors": [],
             "year": 2023,
+            "published_date": "2023-01-01",
             "abstract": "brief",
             "url": "",
             "source": "arxiv",
@@ -80,6 +85,7 @@ def test_surface_papers_falls_back_to_title_year() -> None:
             "title": "vision-language action policy",
             "authors": [],
             "year": 2023,
+            "published_date": "2023-01-02",
             "abstract": "more detailed abstract text",
             "url": "",
             "source": "crossref",
@@ -101,6 +107,7 @@ def test_surface_papers_ranks_relevance_recency_then_title() -> None:
             "title": "Vision language action policy for robots",
             "authors": [],
             "year": current_year - 10,
+            "published_date": f"{current_year - 10}-01-01",
             "abstract": "",
             "url": "",
             "source": "arxiv",
@@ -111,6 +118,7 @@ def test_surface_papers_ranks_relevance_recency_then_title() -> None:
             "title": "Vision language robot planning",
             "authors": [],
             "year": current_year,
+            "published_date": f"{current_year}-01-01",
             "abstract": "action grounding",
             "url": "",
             "source": "crossref",
@@ -121,6 +129,7 @@ def test_surface_papers_ranks_relevance_recency_then_title() -> None:
             "title": "Unrelated topic",
             "authors": [],
             "year": current_year,
+            "published_date": f"{current_year}-01-01",
             "abstract": "",
             "url": "",
             "source": "crossref",
@@ -142,6 +151,7 @@ def test_surface_papers_limit_and_context_formatting() -> None:
             "title": "Paper A",
             "authors": ["Alice"],
             "year": 2024,
+            "published_date": "2024-01-01",
             "abstract": "",
             "url": "https://example.com/a",
             "source": "arxiv",
@@ -152,6 +162,7 @@ def test_surface_papers_limit_and_context_formatting() -> None:
             "title": "Paper B",
             "authors": [],
             "year": None,
+            "published_date": None,
             "abstract": "",
             "url": "",
             "source": "crossref",
@@ -177,3 +188,41 @@ def test_missing_fields_do_not_break_pipeline() -> None:
 
     assert len(selected) == 1
     assert selected[0]["title"] == "Sparse record"
+
+
+def test_surface_papers_filters_by_date_window() -> None:
+    records = [
+        {
+            "title": "Older Paper",
+            "authors": [],
+            "year": 2022,
+            "published_date": "2022-01-01",
+            "abstract": "robot policy",
+            "url": "",
+            "source": "arxiv",
+            "doi": None,
+            "arxiv_id": "2201.00001",
+        },
+        {
+            "title": "Newer Paper",
+            "authors": [],
+            "year": 2024,
+            "published_date": "2024-01-01",
+            "abstract": "robot policy",
+            "url": "",
+            "source": "arxiv",
+            "doi": None,
+            "arxiv_id": "2401.00001",
+        },
+    ]
+
+    surfaced = surface_papers(
+        records,
+        query="robot policy",
+        limit=5,
+        after_date="2023-01-01",
+        before_date="2024-12-31",
+    )
+
+    assert len(surfaced) == 1
+    assert surfaced[0]["title"] == "Newer Paper"

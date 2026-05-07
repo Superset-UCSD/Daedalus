@@ -28,9 +28,10 @@ To surface papers through Discord, add your Discord bot token during setup and r
 uv run scripts/discord_bot.py
 ```
 
-The bot registers a global `/papers` command. Global Discord commands can take time to appear after startup.
+The bot registers global `/papers` and `/research` commands. Global Discord commands can take time to appear after startup. `/papers` returns surfaced metadata, while `/research` asks the LLM to write grounded notes from the surfaced papers.
 ```
-/papers topic: vision-language-action models for robot manipulation
+/papers topic: vision-language-action models for robot manipulation after_date: 2024-01-01 before_date: 2026-12-31 article_count: 5
+/research topic: vision-language-action models for robot manipulation after_date: 2024-01-01 before_date: 2026-12-31 article_count: 5
 ```
 
 # Architecture
