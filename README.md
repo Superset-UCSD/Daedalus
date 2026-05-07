@@ -5,7 +5,7 @@
 Run setup.py in our uv environment to get started to securely store your credentials in a `.env`.
 ```
 uv sync
-uv run scripts/setup.py
+uv run scripts/setup_env.py
 ```
 
 # Architecture
@@ -16,7 +16,7 @@ We plan to follow a readability-first principled approach to this repository. Mo
 
 ## Roadmap
 **In-Progress/Partially Implemented**
-- [x] Setup for tokens through `setup.py`. Note: this is currently very barebones.
+- [x] Setup for tokens through `setup_env.py`. Note: this is currently very barebones.
 
 **Open:**
 - [ ] Basic Agent paper surfacing
