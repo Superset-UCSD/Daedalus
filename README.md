@@ -1,4 +1,7 @@
 # Daedalus
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Python](https://img.shields.io/badge/python-3.13%2B-blue)
+
 **Daedalus** is a lightweight, general purpose, ergonomic research agent built for surfacing papers and assisting in research. 
 
 # Getting Started
