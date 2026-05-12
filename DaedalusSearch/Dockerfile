@@ -1,13 +1,12 @@
 FROM ghcr.io/astral-sh/uv:alpine
 
 WORKDIR /app
-COPY .env .env
+
+# env set up
 COPY pyproject.toml pyproject.toml
-COPY DaedalusSearch/ .
-
-
-RUN ls
-
 RUN uv sync --no-dev
 
-ENTRYPOINT ["uv", "run", "daedalus_search/entrypoint.py"]
+# copy code
+COPY DaedalusSearch/ .
+
+ENTRYPOINT ["uv", "run", "fastapi", "dev", "--host", "0.0.0.0"]

@@ -43,15 +43,13 @@ We plan to follow a readability-first principled approach to this repository. Mo
 ## Roadmap
 **In-Progress/Partially Implemented**
 - [x] Setup for tokens through `setup_env.py`. Note: this is currently very barebones.
+- [X] Migrate Scripts and codebase into src and proper directory structure
 
 **Open:**
+
 - [ ] Basic Agent paper surfacing
 - [ ] Support multiple model switching within API
 - [ ] Hide API Key during input via setup
 - [ ] Streamline setup through a proper TUI with React + Ink
 - [ ] Repository Directory writeup
 - [ ] Database integration
-- [ ] Migrate Scripts and codebase into src and proper directory structure
-
-**Long-term:**
-- [ ] Migrate setup and restructure components into full packages

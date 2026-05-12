@@ -4,18 +4,22 @@ services:
       context: .
       dockerfile: DaedalusBot/Dockerfile
     ports:
-      - "8000:8000"
+      - "5001:5001"
     networks:
       - daedalus-network  
+    env_file: ".env"
   
   daedalus_search:
     build: 
       context: .
       dockerfile: DaedalusSearch/Dockerfile
     ports:
-      - "8001:8001"
+      - "8000:8000"
     volumes:
       - ./data:/data
+    networks:
+      - daedalus-network
+    env_file: ".env"
 
 networks:
   daedalus-network:
