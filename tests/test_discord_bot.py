@@ -1,4 +1,4 @@
-from scripts.discord_bot import format_discord_papers, format_discord_research_notes, parse_discord_date
+from DaedalusBot.daedalus_bot.discord_bot import format_discord_papers, format_discord_research_notes, parse_discord_date
 
 
 def test_format_discord_papers_lists_top_papers() -> None:

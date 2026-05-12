@@ -1,0 +1,23 @@
+services:
+  daedalus_bot:
+    build: 
+      context: .
+      dockerfile: DaedalusBot/Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - daedalus-network  
+  
+  daedalus_search:
+    build: 
+      context: .
+      dockerfile: DaedalusSearch/Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./data:/data
+
+networks:
+  daedalus-network:
+    driver: bridge
+

@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 
-from DaedalusSearch.daedalus_search.paper_search import format_paper_context, search_arxiv, search_crossref, surface_papers
+from paper_search import format_paper_context, search_arxiv, search_crossref, surface_papers
 
 load_dotenv()
 
@@ -14,10 +14,11 @@ client = OpenAI(
 
 model = os.getenv("LLM_MODEL", "local-model")
 
-topic = input("Research topic: ").strip()
+## TEMPORARY: hardcoded topic for testing
+topic = "Domain Shift in Bioacoustics between Focal and Soundscape Recordings" #input("Research topic: ").strip()
 
-if not topic:
-    topic = "multimodal retrieval augmented generation"
+# if not topic:
+#     topic = "multimodal retrieval augmented generation"
 
 arxiv_results = search_arxiv(topic, limit=12)
 crossref_results = search_crossref(

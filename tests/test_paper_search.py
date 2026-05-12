@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from scripts.paper_search import format_paper_context, surface_papers
+from DaedalusSearch.src.paper_search import format_paper_context, surface_papers
 
 
 def test_surface_papers_dedupes_by_doi_and_merges_fields() -> None:
